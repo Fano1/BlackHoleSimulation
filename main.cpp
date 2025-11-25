@@ -2,50 +2,47 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+//utilities function
+
 int main(void){
 
-    int width = 800; 
-    int height = 800;
-    
+    //init and hint
     glfwInit();
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(width, height, "BlackHoleSimulation", NULL, NULL);
+    int width = 800;
+    int height = 800;
+
+    GLFWwindow* window = glfwCreateWindow(width, height, "toturial window", NULL, NULL);
 
     if (window == NULL){
-        std::cout << "Error occured" << std::endl;
+        std::cout << "error occured" << std::endl;
         glfwTerminate();
-        return 1;
+        return -1;
     }
-    
+
     glfwMakeContextCurrent(window);
+    
+    //setting up the buffer and other things
+    gladLoadGL();
+    glViewport(0, 0, 800, 800); //from (0, 0) -> (800, 800)
+    glClearColor(0.1f, 0.3f, 0.6f, 1);
 
-    //use glad to render shit
-    //current frame -> current screen -> front buffer
-    //next frame -> next screen -> back buffer
-    //then swar the current & next buffer toi change the view 
+    glClear(GL_COLOR_BUFFER_BIT); //color buffer
 
-    gladLoadGL(); //init
-    glViewport(0, 0 , 800, 800); //setting boundry
-    glClearColor(0.4f, 0.6f, 0.9f, 0); //back buffer calculation
-    glClear(GL_COLOR_BUFFER_BIT); //specity bit
-    glfwSwapBuffers(window); //swap
+    glfwSwapBuffers(window);
 
+    //true loop
 
-    //main loop
     while(!glfwWindowShouldClose(window)){
+        glfwPollEvents(); //process all the events
+    }
 
-        glfwPollEvents();
-    };
-
-
+    //terminate the program
     glfwDestroyWindow(window);
     glfwTerminate();
-
-
-
     return 0;
 }
